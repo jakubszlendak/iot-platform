@@ -19,13 +19,13 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	public void deleteUser(long ID) {
-		userDAO.deleteUser(ID);
+	public void deleteUser(String username) {
+		userDAO.deleteUser(username);
 
 	}
 
-	public User getUserById(long ID) {
-		return userDAO.getUserById(ID);
+	public User getUserById(String username) {
+		return userDAO.getUserByUsername(username);
 	}
 
 	public List<User> getAllUsers() {

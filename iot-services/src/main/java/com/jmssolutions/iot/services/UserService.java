@@ -6,8 +6,8 @@ import com.jmssolutions.iot.domain.User;
 
 public interface UserService {
 	void insertUser(User user);
-	void deleteUser(long ID);
-	User getUserById(long ID);
+	void deleteUser(String username);
+	User getUserById(String username);
 	List<User> getAllUsers();
 //	User getUserByUsername(String username);
 	List<User> getUserByUserParams(User toFind);

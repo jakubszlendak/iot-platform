@@ -28,7 +28,7 @@ public class UserDAOImplTest {
 		when(user.getEmail()).thenReturn("email");
 		when(user.getLastName()).thenReturn("surname");
 		when(user.getPassword()).thenReturn("passwd");
-		when(user.getID()).thenReturn((long) anyInt());
+//		when(user.getID()).thenReturn((long) anyInt());
 	}
 	
 	@BeforeClass
@@ -43,7 +43,7 @@ public class UserDAOImplTest {
 	@Test
 	public void testInsertUser() {
 		userDao.insertUser(user);
-		userDao.getUserById(user.getID());
+//		userDao.getUserById(user.getID());
 	
 	}
 

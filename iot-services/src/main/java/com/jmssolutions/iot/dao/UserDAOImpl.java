@@ -42,9 +42,9 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Transactional
-	public void deleteUser(long id) {
-		Query query = entityManager.createQuery("delete User where ID = :id");
-		query.setParameter("id", id);
+	public void deleteUser(String username) {
+		Query query = entityManager.createQuery("delete User where username = :un");
+		query.setParameter("un", username);
 		int result = query.executeUpdate();
 
 	}
@@ -77,8 +77,8 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
-	public User getUserById(long id) {
-		return entityManager.find(User.class, id);
+	public User getUserByUsername(String username) {
+		return entityManager.find(User.class, username);
 //
 //		String hql = "from User where ID = :user_id";
 //		Query query = entityManager.createQuery(hql);
