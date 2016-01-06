@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css">         
 		<script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>  
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Register</title>
+		<title>User added</title>
 		<style>
 			.jumbotron {
 				text-align: center;

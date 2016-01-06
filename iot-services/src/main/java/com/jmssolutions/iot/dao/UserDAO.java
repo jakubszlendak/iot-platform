@@ -10,5 +10,6 @@ public interface UserDAO {
 	public void insertUser(User user);
 	public void deleteUser(long id);
 	public List<User> getAllUsers();
+	List<User> findUser(User user);
 
 }
