@@ -11,6 +11,8 @@
 
        <security:http auto-config="true" use-expressions="true">
               <security:intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')" />
+              <!--<security:intercept-url pattern="/dashboard"-->
+              <security:intercept-url pattern="/dashboard**" access="hasRole('ROLE_USER')"/>
               <security:access-denied-handler error-page="/403" />
               <security:form-login
                      login-page="/login"
@@ -27,7 +29,10 @@
               <security:authentication-provider>
                      <security:jdbc-user-service data-source-ref="userDataSource"
                                                  users-by-username-query="SELECT username,password, enabled FROM user WHERE username=?"
-                                                 authorities-by-username-query="SELECT username, role FROM user_roles where username=?" />
+                                                 authorities-by-username-query="SELECT username, role
+                                                                                FROM (user JOIN user_role ON user.user_id=user_role.user_id)
+                                                                                JOIN role ON user_role.role_id=role.role_id
+                                                                                WHERE username=?" />
               </security:authentication-provider>
        </security:authentication-manager>
 
