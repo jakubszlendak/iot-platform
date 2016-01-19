@@ -1,8 +1,10 @@
 package com.jmssolutions.iot.webapp.controllers;
 
+import com.jmssolutions.iot.services.UserService;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -12,11 +14,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+
 /**
- * Created by jakub on 06.01.16.
+ * Created by jakub on 19.01.16.
  */
 @Controller
-public class LoginRegisterController {
+public class LoginController {
+
+    private final static Logger logger = Logger.getLogger(LoginController.class);
+
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = "/login")
     public ModelAndView login(@RequestParam(value = "error", required = false) String error,
@@ -41,4 +49,5 @@ public class LoginRegisterController {
         }
         return "403";
     }
+
 }

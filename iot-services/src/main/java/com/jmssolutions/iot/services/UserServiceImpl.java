@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.jmssolutions.iot.dao.RoleDAO;
 import com.jmssolutions.iot.domain.Role;
+import com.jmssolutions.iot.exceptions.UserExistsException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.jmssolutions.iot.dao.UserDAO;
 import com.jmssolutions.iot.domain.User;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 
@@ -31,10 +33,13 @@ public class UserServiceImpl implements UserService {
 	public User createUser(User user) {
 		try {
 			user = userDAO.insertUser(user);
-		} catch (Exception e) {
+		} catch (PersistenceException e) {
 			logger.error("No user inserted. Constraint violated: " + e.getMessage());
-			return null;
+			throw new UserExistsException("User already exists");
+		} catch (Exception e){
+			throw new RuntimeException("Internal error: "+e.getMessage());
 		}
+
 		Collection<Role> roles = new ArrayList<>(1);
 		roles.add(roleDAO.getRoleByName("ROLE_USER"));
 		this.addUserRoles(user.getID(), roles);

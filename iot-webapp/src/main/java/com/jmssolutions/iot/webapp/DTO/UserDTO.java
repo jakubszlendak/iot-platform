@@ -1,12 +1,16 @@
 package com.jmssolutions.iot.webapp.DTO;
 
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.jmssolutions.iot.webapp.validation.PasswordMatches;
+import com.jmssolutions.iot.webapp.validation.ValidEmail;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
+@PasswordMatches
 public class UserDTO {
 	
 	
@@ -15,16 +19,16 @@ public class UserDTO {
 	
 	private String firstName;
 	private String lastName;
-	
 
-
-	@Email
+	@ValidEmail
+	@NotNull
 	@NotBlank
 	private String email;
 	
 	@NotBlank
 	@Size(min=5)
 	private String password;
+	private String matchingPassword;
 	
 	public String getUsername() {
 		return username;
@@ -64,6 +68,14 @@ public class UserDTO {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getMatchingPassword() {
+		return matchingPassword;
+	}
+
+	public void setMatchingPassword(String matchingPassword) {
+		this.matchingPassword = matchingPassword;
 	}
 	
 }

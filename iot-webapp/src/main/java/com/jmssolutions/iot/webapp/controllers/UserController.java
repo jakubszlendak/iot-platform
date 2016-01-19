@@ -25,41 +25,6 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String registerForm(Model model){
-		model.addAttribute("userDTO", new UserDTO());
-		return "add-user";
-	}
-	
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String registerUser(@ModelAttribute("userDTO") @Valid UserDTO userDTO, BindingResult result, ModelMap model){
-		if(result.hasErrors()){
-			logger.info("Invalid form data provided.");
-			logger.info(result.getAllErrors().toString());
-			return "add-user";
-		}
-		else{
-			User user = new User();
-			user.setUsername(userDTO.getUsername());
-			user.setPassword(userDTO.getPassword());;
-			user.setEmail(userDTO.getEmail());
-			user.setFirstName(userDTO.getFirstName());
-			user.setLastName(userDTO.getLastName());
-			try{
-				userService.insertUser(user);
-			} catch (Exception e){
-				model.addAttribute("errorMessage", e.getMessage());
-				model.addAttribute("stackTrace", e.getStackTrace().toString());
-				return "internal-error";
-			}
-			
-			model.addAttribute("userName", user.getUsername());
-			model.addAttribute("userEmail", user.getEmail());
-			
-			return "user-added";
-		}
-	}
-	
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public String searchUsers(HttpServletRequest request, Model model){
         User query = new User();

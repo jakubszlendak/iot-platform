@@ -5,8 +5,10 @@ import java.util.List;
 import com.jmssolutions.iot.domain.Role;
 import com.jmssolutions.iot.domain.User;
 
+import javax.persistence.EntityExistsException;
+
 public interface UserService {
-	User createUser(User user);
+	User createUser(User user) throws RuntimeException;
 	User updateUser(User user);
 	void deleteUser(long id);
 	void addUserRoles(long userId, Collection<Role> roles);
