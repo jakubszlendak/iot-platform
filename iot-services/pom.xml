@@ -10,12 +10,12 @@
   	<dependency>
   		<groupId>org.springframework</groupId>
   		<artifactId>spring-core</artifactId>
-  		<version>4.2.4.RELEASE</version>
+  		<version>${spring.core_version}</version>
   	</dependency>
   	<dependency>
   		<groupId>org.springframework</groupId>
   		<artifactId>spring-orm</artifactId>
-  		<version>4.2.4.RELEASE</version>
+  		<version>${spring.core_version}</version>
   	</dependency>
   	<dependency>
   		<groupId>org.hibernate</groupId>
@@ -35,12 +35,12 @@
   	<dependency>
   		<groupId>org.springframework</groupId>
   		<artifactId>spring-aop</artifactId>
-  		<version>4.2.4.RELEASE</version>
+  		<version>${spring.core_version}</version>
   	</dependency>
   	<dependency>
   		<groupId>org.springframework</groupId>
   		<artifactId>spring-context</artifactId>
-  		<version>4.2.4.RELEASE</version>
+  		<version>${spring.core_version}</version>
   	</dependency>
   	<dependency>
 		<groupId>mysql</groupId>
@@ -60,12 +60,32 @@
 	<dependency>
 		<groupId>org.springframework</groupId>
         <artifactId>spring-test</artifactId>
-        <version>4.2.4.RELEASE</version>
+        <version>${spring.core_version}</version>
     </dependency>
   	<dependency>
 		<groupId>org.mockito</groupId>
 		<artifactId>mockito-all</artifactId>
 		<version>1.8.4</version>
 	</dependency>
+	  <dependency>
+		  <groupId>org.springframework.security</groupId>
+		  <artifactId>spring-security-core</artifactId>
+		  <version>${spring.security_version}</version>
+	  </dependency>
+	  <dependency>
+		  <groupId>org.springframework.security</groupId>
+		  <artifactId>spring-security-web</artifactId>
+		  <version>${spring.security_version}</version>
+	  </dependency>
+	  <dependency>
+		  <groupId>org.springframework.security</groupId>
+		  <artifactId>spring-security-config</artifactId>
+		  <version>${spring.security_version}</version>
+	  </dependency>
+	  <dependency>
+		  <groupId>org.springframework.security</groupId>
+		  <artifactId>spring-security-taglibs</artifactId>
+		  <version>${spring.security_version}</version>
+	  </dependency>
   </dependencies>
 </project>

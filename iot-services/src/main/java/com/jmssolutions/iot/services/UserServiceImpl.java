@@ -31,14 +31,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User createUser(User user) {
-		try {
-			user = userDAO.insertUser(user);
-		} catch (PersistenceException e) {
-			logger.error("No user inserted. Constraint violated: " + e.getMessage());
+		User u = userDAO.getUserByUsername(user.getUsername());
+		u = userDAO.getUserByEmail(user.getEmail());
+		if(u != null)
+		{
+			logger.error("No user inserted. Constraint violated. ");
 			throw new UserExistsException("User already exists");
-		} catch (Exception e){
-			throw new RuntimeException("Internal error: "+e.getMessage());
 		}
+
+		user = userDAO.insertUser(user);
 
 		Collection<Role> roles = new ArrayList<>(1);
 		roles.add(roleDAO.getRoleByName("ROLE_USER"));
@@ -70,6 +71,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getUserByUsername(String username) { return userDAO.getUserByUsername(username);}
+
+	@Override
+	public User getUserByEmail(String email) {
+		return userDAO.getUserByEmail(email);
+	}
 
 	@Override
 	public List<User> getAllUsers() {

@@ -36,7 +36,7 @@ public class LoginController {
         if(logout != null){
             model.addObject("msg", "Logged out succesfully");
         }
-        model.setViewName("login");
+        model.setViewName("user_login_def");
         return model;
     }
 

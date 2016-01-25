@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+    <definition name="dashboard_template" template="/WEB-INF/template/template.jsp">
+        <put-attribute name="navbar-tile" value="/WEB-INF/jsp/navbar/default_navbar.jsp" />
+        <put-attribute name="content-tile" value="/WEB-INF/template/default_content.jsp"/>
+        <put-attribute name="sidebar-tile" value="/WEB-INF/template/default_sidebar.jsp" />
+        <put-attribute name="body-id" value="homepage" />
+    </definition>
+
+    <definition name="no_sidebar_template" template="/WEB-INF/template/template_no_sidebar.jsp">
+        <put-attribute name="navbar-tile" value="/WEB-INF/jsp/navbar/default_navbar.jsp" />
+        <put-attribute name="content-tile" value="/WEB-INF/template/default_content.jsp"/>
+        <put-attribute name="body-id" value="homepage" />
+    </definition>
+</tiles-definitions>

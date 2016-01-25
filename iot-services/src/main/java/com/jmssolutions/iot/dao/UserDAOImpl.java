@@ -105,7 +105,6 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	@Transactional
 	public User getUserByUsername(String username) {
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<User> q = cb.createQuery(User.class);
@@ -127,5 +126,28 @@ public class UserDAOImpl implements UserDAO {
 			return null;
 		}
 	}
+
+	@Override
+	public User getUserByEmail(String email) {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<User> q = cb.createQuery(User.class);
+		Root<User> u = q.from(User.class);
+		q.select(u);
+		q.where(
+				cb.equal(u.get("email"), email)
+		);
+
+		TypedQuery<User> typedQuery = entityManager.createQuery(q);
+		try {
+			return typedQuery.getSingleResult();
+		} catch (NonUniqueResultException e)
+		{
+			logger.error("Result of username query non-unique. This mean serious violation of database structure. Had better call police.");
+			throw new RuntimeException("DB error");
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
 
 }

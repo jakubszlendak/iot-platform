@@ -14,6 +14,7 @@ public interface UserService {
 	void addUserRoles(long userId, Collection<Role> roles);
 	User getUserById(long id);
 	User getUserByUsername(String username);
+	User getUserByEmail(String email);
 	List<User> getAllUsers();
 	List<User> getUserByUserParams(User toFind);
 }

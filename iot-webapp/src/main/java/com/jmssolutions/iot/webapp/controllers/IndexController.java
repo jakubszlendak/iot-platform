@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/")
 public class IndexController {
-//	@RequestMapping("*")
-//	public String hello(HttpServletRequest request){
-//		System.out.println(request.getServletPath());
-//		return "index";
-//	}
+	@RequestMapping("/")
+	public String homepage(HttpServletRequest request){
+		return "homepage_def";
+	}
 
 }
