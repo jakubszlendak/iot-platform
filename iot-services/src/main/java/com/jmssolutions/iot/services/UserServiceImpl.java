@@ -5,7 +5,9 @@ import java.util.Collection;
 import java.util.List;
 
 import com.jmssolutions.iot.dao.RoleDAO;
+import com.jmssolutions.iot.dao.VerificationTokenDAO;
 import com.jmssolutions.iot.domain.Role;
+import com.jmssolutions.iot.domain.VerificationToken;
 import com.jmssolutions.iot.exceptions.UserExistsException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	RoleDAO roleDAO;
+
+	@Autowired
+	VerificationTokenDAO tokenDAO;
 
 	private final static Logger logger = Logger.getLogger(UserServiceImpl.class);
 
@@ -48,12 +53,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateUser(User user) {
-//		userDAO.updateUser(user);
-		return null;
+	public void updateUser(User user) {
+		userDAO.updateUser(user);
 	}
 
 	public void deleteUser(long id) {
+		tokenDAO.deleteByUserId(id);
 		userDAO.deleteUser(id);
 
 	}
@@ -85,6 +90,31 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> getUserByUserParams(User toFind) {
 		return userDAO.findUser(toFind);
+	}
+
+	@Override
+	public User getUserByVerificationToken(String token) {
+		VerificationToken t = tokenDAO.findByToken(token);
+		if(t != null){
+			return t.getUser();
+		}
+		else return null;
+	}
+
+	@Override
+	public void createVerificationToken(User user, String token) {
+		VerificationToken t = new VerificationToken(token, user);
+		tokenDAO.insertToken(t);
+	}
+
+	@Override
+	public VerificationToken getVerificationToken(String verificationToken) {
+		return tokenDAO.findByToken(verificationToken);
+	}
+
+	@Override
+	public void deleteVerificationToken(VerificationToken token) {
+		tokenDAO.deleteByUserId(token.getUser().getID());
 	}
 
 }

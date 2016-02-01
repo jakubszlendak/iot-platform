@@ -29,5 +29,6 @@
   <properties>
     <spring.security_version>4.0.3.RELEASE</spring.security_version>
     <spring.core_version>4.2.4.RELEASE</spring.core_version>
+    <javax.mail.version>1.4</javax.mail.version>
   </properties>
 </project>

@@ -13,6 +13,7 @@ public interface UserDAO {
 	void setUserRoles(long userID, Collection<Role> roles);
 	User insertUser(User user);
 	void deleteUser(long id);
+	void updateUser(User user) throws IllegalArgumentException;
 	List<User> getAllUsers();
 	List<User> findUser(User user);
 	User getUserByUsername(String username);

@@ -8,5 +8,17 @@
 	<import resource="classpath:/repositories-context.xml"/>
 	<context:annotation-config/>
 	<context:component-scan base-package="com.jmssolutions.iot.services"></context:component-scan>
+	<context:property-placeholder location="classpath:/mailing.properties" ignore-unresolvable="true"/>
+
+	<bean id="mailingServiceImpl" class="com.jmssolutions.iot.services.MailingServiceImpl">
+		<property name="mailEmailFrom" value="${mailing.from}"/>
+		<property name="mailSmtpAuth" value="${mailing.smtpAuth}"/>
+		<property name="mailSmtpHost" value="${mailing.stmpHost}"/>
+		<property name="mailSmtpPort" value="${mailing.stmpPort}"/>
+		<property name="mailSmtpSocketFactoryPort" value="${mailing.stmpSocketFactoryPort}"/>
+		<property name="mailSmtpSocketFactoryClass" value="${mailing.stmpSocketFactoryClass}"/>
+		<property name="password" value="${mailing.password}"/>
+		<property name="username" value="${mailing.username}"/>
+	</bean>
 
 </beans>

@@ -26,6 +26,14 @@
         <put-attribute name="content-tile" value="/WEB-INF/jsp/user/after_register.jsp"/>
     </definition>
 
+
+    <definition name="after_activation_def" extends="no_sidebar_template">
+        <put-attribute name="title" value="Internet of Things"/>
+        <put-attribute name="page_description" value="Internet is Everywhere"/>
+        <put-attribute name="body-id" value="user-registration" />
+        <put-attribute name="content-tile" value="/WEB-INF/jsp/user/after_activation.jsp"/>
+    </definition>
+
     <definition name="user_login_def" extends="no_sidebar_template">
         <put-attribute name="title" value="Internet of Things, user registration"/>
         <put-attribute name="page_description" value="Internet is Everywhere"/>
@@ -35,7 +43,7 @@
 
     <!-- Dashboards-->
     <definition name="dashboard_welcome_def" extends="dashboard_template">
-        <put-attribute name="title" value="Internet of Things, dashbpard"/>
+        <put-attribute name="title" value="Internet of Things, dashboard"/>
         <put-attribute name="page_description" value="Internet is Everywhere"/>
         <put-attribute name="body-id" value="dashboard" />
         <put-attribute name="content-tile" value="/WEB-INF/jsp/user/welcome.jsp"/>

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.jmssolutions.iot.domain.Role;
+import com.jmssolutions.iot.domain.VerificationToken;
 import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.apache.log4j.Logger;
 
@@ -69,10 +70,21 @@ public class UserDAOImpl implements UserDAO {
 	@Transactional
 	public void deleteUser(long id) {
 		User u = entityManager.find(User.class, id);
+		u.setRoles(null);
 		entityManager.remove(u);
 		entityManager.flush();
 
 	}
+
+	@Override
+	@Transactional
+	public void updateUser(User user) {
+		User u = entityManager.find(User.class, user.getID());
+		if(u == null)
+			throw new IllegalArgumentException("User not found.");
+		entityManager.merge(user);
+	}
+
 
 	@SuppressWarnings("unchecked")
 	@Transactional

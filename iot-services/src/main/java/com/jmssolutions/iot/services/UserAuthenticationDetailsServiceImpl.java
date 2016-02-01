@@ -32,7 +32,7 @@ public class UserAuthenticationDetailsServiceImpl implements UserDetailsService 
         if(user == null)
             throw new UsernameNotFoundException("No user found with username "+s);
 
-        boolean enabled = true;
+        boolean enabled = user.getEnabled()>0 ? true:false;
         boolean accountNotExpired = true;
         boolean credentialsNotExpired = true;
         boolean accountNotLocked = true;

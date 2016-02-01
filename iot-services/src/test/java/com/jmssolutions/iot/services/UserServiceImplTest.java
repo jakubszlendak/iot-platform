@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.UUID;
+
 /**
  * Created by jakub on 18.01.16.
  */
@@ -21,7 +23,7 @@ public class UserServiceImplTest extends TestCase {
     @Autowired
     UserService userService;
 
-    User u, u2;
+    User u, u2, u3;
 
     private final static String TEST_USERNAME = "bolex";
 
@@ -44,6 +46,14 @@ public class UserServiceImplTest extends TestCase {
         u2.setPassword("trzaslo");
         u2.setEnabled(1);
 
+        u3 = new User();
+        u3.setFirstName("Kuba");
+        u3.setLastName("Sz");
+        u3.setEmail("szlendak.jakub@gmail.com");
+        u3.setUsername(TEST_USERNAME + "2");
+        u3.setPassword("trzaslo");
+        u3.setEnabled(0);
+
     }
 
     @After
@@ -55,6 +65,10 @@ public class UserServiceImplTest extends TestCase {
         User u2 = userService.getUserByUsername(TEST_USERNAME+"1");
         if(u2 != null)
             userService.deleteUser(u2.getID());
+
+        User u3 = userService.getUserByUsername(TEST_USERNAME+"2");
+        if(u3 != null)
+            userService.deleteUser(u3.getID());
     }
 
     @Test
@@ -87,6 +101,15 @@ public class UserServiceImplTest extends TestCase {
     }
 
     public void testGetAllUsers() throws Exception {
+
+    }
+
+    @Test
+    public void testCreateVerificationToken() throws Exception {
+        User u = userService.createUser(u3);
+        String token = UUID.randomUUID().toString();
+        userService.createVerificationToken(u, token);
+
 
     }
 

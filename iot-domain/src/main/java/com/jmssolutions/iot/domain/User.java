@@ -29,11 +29,14 @@ public class User {
 	@Column(name="last_name")
 	private String lastName;
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.REMOVE)
 	@JoinTable(	name = "user_role",
 				joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
 				inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
 	private Collection<Role> roles;
+
+//	@OneToOne(cascade = CascadeType.REMOVE)
+//	private VerificationToken verificationToken;
 
 
 
@@ -78,6 +81,13 @@ public class User {
 
 	public void setRoles(Collection<Role> roles) {this.roles = roles;}
 
+//	public VerificationToken getVerificationToken() {
+//		return verificationToken;
+//	}
+//
+//	public void setVerificationToken(VerificationToken verificationToken) {
+//		this.verificationToken = verificationToken;
+//	}
 
 	@Override
 	public boolean equals(Object o) {
