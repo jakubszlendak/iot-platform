@@ -1,12 +1,15 @@
 package com.jmssolutions.iot.services;
 
 import org.apache.log4j.Logger;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
+import java.util.concurrent.Future;
 
 /**
  * Created by jakub on 31.01.16.
@@ -29,19 +32,31 @@ public class MailingServiceImpl implements MailingService {
     public boolean sendPlainTextEmail(String subject, String address, String message) {
         Session session = openSession();
         openSession();
-
+        Message m = new MimeMessage(session);
         try{
-            Message m = new MimeMessage(session);
+
             m.setFrom(new InternetAddress(mailEmailFrom));
             m.setRecipients(Message.RecipientType.TO, InternetAddress.parse(address));
             m.setSubject(subject);
             m.setText(message);
-            Transport.send(m);
         } catch (MessagingException e){
-            logger.error("Unable to send email: "+e.getMessage());
+            logger.error("Unable to prepare email: "+e.getMessage());
             return false;
         }
+        Future<String> result = sendEmail(m);
         return true;
+    }
+
+    @Async
+    public Future<String> sendEmail(Message m){
+        logger.info("Entering async task in thread: "+Thread.currentThread().getName()+". Gonna try send email...");
+        try {
+            Transport.send(m);
+        } catch (MessagingException e) {
+            throw new RuntimeException("Error when sending email");
+        }
+
+        return new AsyncResult<>("succes");
     }
 
     private Session openSession(){

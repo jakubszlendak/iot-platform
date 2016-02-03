@@ -35,6 +35,9 @@ public class User {
 				inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
 	private Collection<Role> roles;
 
+	@OneToMany(mappedBy = "owner")
+	private Collection<Device> devices;
+
 //	@OneToOne(cascade = CascadeType.REMOVE)
 //	private VerificationToken verificationToken;
 
@@ -81,7 +84,15 @@ public class User {
 
 	public void setRoles(Collection<Role> roles) {this.roles = roles;}
 
-//	public VerificationToken getVerificationToken() {
+	public Collection<Device> getDevices() {
+		return devices;
+	}
+
+	public void setDevices(Collection<Device> devices) {
+		this.devices = devices;
+	}
+
+	//	public VerificationToken getVerificationToken() {
 //		return verificationToken;
 //	}
 //

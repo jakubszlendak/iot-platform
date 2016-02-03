@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class UserDAOImpl implements UserDAO {
 
-	@Autowired
+//	@Autowired
 //	DataSource dataSource;
 //
 	private final static Logger logger = Logger.getLogger(UserDAOImpl.class);
@@ -56,13 +56,13 @@ public class UserDAOImpl implements UserDAO {
 	public User insertUser(User user) {
 		logger.info("Inserting user: " + user.toString());
 		try {
-		user = entityManager.merge(user);
-		entityManager.flush();
-		entityManager.detach(user);
-		return user;
+			user = entityManager.merge(user);
+			entityManager.flush();
+			entityManager.detach(user);
+			return user;
 		} catch (PersistenceException e)
 		{
-			logger.error("Constraint violation:" + e.getMessage()+ "// Probably tried to insert user with same name as exist");
+			logger.error("Constraint violation:" + e.getMessage()+ ". Probably tried to insert user with same name as exist");
 			throw new PersistenceException(e.getCause().toString());
 		}
 	}
@@ -70,6 +70,8 @@ public class UserDAOImpl implements UserDAO {
 	@Transactional
 	public void deleteUser(long id) {
 		User u = entityManager.find(User.class, id);
+		if(u == null)
+			return;
 		u.setRoles(null);
 		entityManager.remove(u);
 		entityManager.flush();
