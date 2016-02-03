@@ -9,11 +9,7 @@ import java.util.List;
 /**
  * Created by jakub on 01.02.16.
  */
-public interface DeviceDAO {
+public interface DeviceDAO extends DataAccessObject<Long, Device>{
     DeviceClass findDeviceClass(String name);
-    Device createDevice(Device device);
-    Device findDeviceById(long id);
-    List<Device> findDevicesByOwner(User user);
-    Device updateDevice(Device device) throws IllegalArgumentException;
-    void deleteDevice(Device device);
+    List<Device> findByOwner(User owner);
 }

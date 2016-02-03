@@ -53,14 +53,14 @@ public class DeviceDAOImplTest extends TestCase {
         d2.setProducerName(DEV_PRODUCER);
         d2.setDeviceClass(dc1);
         d2.setOwner(u1);
-        d2 = deviceDAO.createDevice(d2);
+        d2 = deviceDAO.create(d2);
 
         d3 = new Device();
         d3.setName(DEV_NAME+"3");
         d3.setProducerName(DEV_PRODUCER);
         d3.setDeviceClass(dc1);
         d3.setOwner(u1);
-        d3 = deviceDAO.createDevice(d3);
+        d3 = deviceDAO.create(d3);
 
 
 
@@ -70,12 +70,12 @@ public class DeviceDAOImplTest extends TestCase {
 
     @After
     public void tearDown() throws Exception {
-        if(d1!= null && deviceDAO.findDeviceById(d1.getID()) != null)
-            deviceDAO.deleteDevice(d1);
-        if(d2 != null && deviceDAO.findDeviceById(d2.getID()) != null)
-            deviceDAO.deleteDevice(d2);
-        if(d3 != null && deviceDAO.findDeviceById(d3.getID()) != null)
-            deviceDAO.deleteDevice(d3);
+        if(d1!= null && deviceDAO.findById(d1.getID()) != null)
+            deviceDAO.remove(deviceDAO.findById(d1.getID()));
+        if(d2 != null && deviceDAO.findById(d2.getID()) != null)
+            deviceDAO.remove(deviceDAO.findById(d2.getID()));
+        if(d3 != null && deviceDAO.findById(d3.getID()) != null)
+            deviceDAO.remove(deviceDAO.findById(d3.getID()));
 
 
 
@@ -84,7 +84,7 @@ public class DeviceDAOImplTest extends TestCase {
 
     @Test
     public void testCreateDevice() throws Exception {
-        Device d = deviceDAO.createDevice(d1);
+        Device d = deviceDAO.create(d1);
         d1=d;
         assertNotNull(d);
     }
@@ -97,28 +97,30 @@ public class DeviceDAOImplTest extends TestCase {
 
     @Test
     public void testFindDeviceById() throws Exception {
-        Device d = deviceDAO.findDeviceById(d2.getID());
+        Device d = deviceDAO.findById(d2.getID());
         assertNotNull(d);
-        assertNull(deviceDAO.findDeviceById(12312));
+        assertNull(deviceDAO.findById((long)12312));
     }
 
     @Test
     public void testFindDevicesByOwner() throws Exception {
-        assertFalse(deviceDAO.findDevicesByOwner(u1).isEmpty());
-        assertEquals(2, deviceDAO.findDevicesByOwner(u1).size());
+        assertFalse(deviceDAO.findByOwner(u1).isEmpty());
+        assertEquals(2, deviceDAO.findByOwner(u1).size());
     }
 
+    @Test
     public void testUpdateDevice() throws Exception {
-        Device d = deviceDAO.findDeviceById(d2.getID());
+        Device d = deviceDAO.findById(d2.getID());
         d.setProducerName("lala");
         d.setAesKey("lolo");
-        Device du = deviceDAO.updateDevice(d);
+        Device du = deviceDAO.update(d);
         assertEquals("lolo", du.getAesKey());
         assertEquals("lala", du.getProducerName());
     }
 
+    @Test
     public void testDeleteDevice() throws Exception {
-        deviceDAO.deleteDevice(d2);
+        deviceDAO.remove(d2);
 
     }
 }

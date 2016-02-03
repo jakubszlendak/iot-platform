@@ -1,6 +1,7 @@
 package com.jmssolutions.iot.domain;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
  * Created by jakub on 01.02.16.
@@ -29,6 +30,9 @@ public class Device {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
+
+    @OneToMany(mappedBy = "owningDevice")
+    private Collection<Sensor> sensors;
 
     public Device() {}
 

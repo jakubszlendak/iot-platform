@@ -21,10 +21,7 @@ import java.util.List;
  * Created by jakub on 01.02.16.
  */
 @Repository
-public class DeviceDAOImpl implements DeviceDAO {
-
-    @PersistenceContext
-    EntityManager entityManager;
+public class DeviceDAOImpl extends AbstractJpaDAO<Long, Device> implements DeviceDAO {
 
     private final static Logger logger = Logger.getLogger(DeviceDAOImpl.class);
 
@@ -35,32 +32,12 @@ public class DeviceDAOImpl implements DeviceDAO {
     }
 
     @Override
-    @Transactional
-    public Device createDevice(Device device) {
-        logger.info("Trying to create device: " + device.toString());
-        try{
-            device = entityManager.merge(device);
-            entityManager.flush();
-            entityManager.detach(device);
-            return device;
-        } catch (PersistenceException e){
-            logger.error("Persistence error: "+ e.getMessage());
-            throw new PersistenceException(e.getCause().toString());
-        }
-    }
-
-    @Override
-    public Device findDeviceById(long id) {
-        return entityManager.find(Device.class, id);
-    }
-
-    @Override
-    public List<Device> findDevicesByOwner(User user) {
+    public List<Device> findByOwner(User owner) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Device> q = cb.createQuery(Device.class);
         Root<Device> u = q.from(Device.class);
         q.select(u);
-        q.where(cb.equal(u.get("owner"), user));
+        q.where(cb.equal(u.get("owner"), owner));
 
         TypedQuery<Device> tq = entityManager.createQuery(q);
         return tq.getResultList();
@@ -68,17 +45,9 @@ public class DeviceDAOImpl implements DeviceDAO {
 
     @Override
     @Transactional
-    public Device updateDevice(Device device) {
-        Device d = entityManager.find(Device.class, device.getID());
-        if(d==null)
-            throw new IllegalArgumentException("Device not found");
-        return entityManager.merge(device);
+    public void remove(Device device){
+        super.remove(entityManager.find(Device.class, device.getID()));
     }
 
-    @Override
-    @Transactional
-    public void deleteDevice(Device device) {
-        Device d = entityManager.find(Device.class, device.getID());
-        entityManager.remove(d);
-    }
+
 }
