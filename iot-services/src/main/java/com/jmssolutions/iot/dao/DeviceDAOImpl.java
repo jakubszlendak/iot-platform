@@ -43,11 +43,5 @@ public class DeviceDAOImpl extends AbstractJpaDAO<Long, Device> implements Devic
         return tq.getResultList();
     }
 
-    @Override
-    @Transactional
-    public void remove(Device device){
-        super.remove(entityManager.find(Device.class, device.getID()));
-    }
-
 
 }

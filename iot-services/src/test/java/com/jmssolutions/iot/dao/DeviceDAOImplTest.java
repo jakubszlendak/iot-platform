@@ -71,15 +71,11 @@ public class DeviceDAOImplTest extends TestCase {
     @After
     public void tearDown() throws Exception {
         if(d1!= null && deviceDAO.findById(d1.getID()) != null)
-            deviceDAO.remove(deviceDAO.findById(d1.getID()));
+            deviceDAO.remove(d1.getID());
         if(d2 != null && deviceDAO.findById(d2.getID()) != null)
-            deviceDAO.remove(deviceDAO.findById(d2.getID()));
+            deviceDAO.remove(d2.getID());
         if(d3 != null && deviceDAO.findById(d3.getID()) != null)
-            deviceDAO.remove(deviceDAO.findById(d3.getID()));
-
-
-
-
+            deviceDAO.remove(d3.getID());
     }
 
     @Test
@@ -120,7 +116,7 @@ public class DeviceDAOImplTest extends TestCase {
 
     @Test
     public void testDeleteDevice() throws Exception {
-        deviceDAO.remove(d2);
+        deviceDAO.remove(d2.getID());
 
     }
 }

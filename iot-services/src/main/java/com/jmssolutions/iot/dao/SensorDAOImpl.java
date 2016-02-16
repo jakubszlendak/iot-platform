@@ -18,11 +18,6 @@ import java.util.List;
 public class SensorDAOImpl extends AbstractJpaDAO<Long, Sensor> implements SensorDAO {
 
     @Override
-    public void remove(Sensor sensor){
-        super.remove(entityManager.find(Sensor.class, sensor.getID()));
-    }
-
-    @Override
     public Measurand findMeasurandByName(String name) {
         return entityManager.find(Measurand.class, name);
     }

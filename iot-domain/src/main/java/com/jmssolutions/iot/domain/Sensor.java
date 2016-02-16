@@ -6,6 +6,7 @@ import javax.persistence.*;
  * Created by jakub on 03.02.16.
  */
 @Entity
+@Table(name = "sensor")
 public class Sensor {
     @Id
     @GeneratedValue

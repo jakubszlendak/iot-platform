@@ -5,7 +5,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 /**
  * Created by jakub on 03.02.16.
@@ -37,6 +42,16 @@ public abstract class AbstractJpaDAO<K, E> implements DataAccessObject<K, E> {
     }
 
     @Override
+    public List<E> findAll(){
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<E> q = cb.createQuery(entityClass);
+        Root<E> root = q.from(entityClass);
+        q.select(root);
+        TypedQuery<E> typedQuery = entityManager.createQuery(q);
+        return typedQuery.getResultList();
+    }
+
+    @Override
     @Transactional
     public E update(E entity) {
         E e =entityManager.merge(entity);
@@ -46,8 +61,9 @@ public abstract class AbstractJpaDAO<K, E> implements DataAccessObject<K, E> {
 
     @Override
     @Transactional
-    public void remove(E entity) {
-
-        entityManager.remove(entity);
+    public void remove(K id) {
+        E e = (E)entityManager.find(entityClass, id);
+        entityManager.remove(e);
     }
+
 }
