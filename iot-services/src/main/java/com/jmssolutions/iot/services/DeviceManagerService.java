@@ -13,7 +13,7 @@ public interface DeviceManagerService {
 
     List<Device> findAllDevices();
     List<Device> findDevicesByUser(User owner);
-    List<Sensor> findSensorByDevice(Device device);
+    List<Sensor> findSensorsByDevice(Device device);
     Device createDeviceWithSensors(Device device, List<Sensor> sensors);
     void addSensorToDevice(Device device, Sensor sensor);
 

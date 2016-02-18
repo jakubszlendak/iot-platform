@@ -15,7 +15,7 @@ public class Sensor {
 
     @ManyToOne(targetEntity = Device.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "device_id", nullable = false)
-    private DeviceClass owningDevice;
+    private Device owningDevice;
 
     @Column(name = "measurand_unit")
     private String unit;
@@ -35,11 +35,11 @@ public class Sensor {
         this.ID = ID;
     }
 
-    public DeviceClass getOwningDevice() {
+    public Device getOwningDevice() {
         return owningDevice;
     }
 
-    public void setOwningDevice(DeviceClass owningDevice) {
+    public void setOwningDevice(Device owningDevice) {
         this.owningDevice = owningDevice;
     }
 

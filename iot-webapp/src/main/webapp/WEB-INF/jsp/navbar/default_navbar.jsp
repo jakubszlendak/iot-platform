@@ -20,9 +20,10 @@
                         </c:when>
                         <c:when test="${not empty username}">
                             <li><a href="/dashboard/user/">${username}</a></li>
+                            <li><a href="<c:url value="/j_spring_security_logout" />">Logout</a></li>
                         </c:when>
                     </c:choose>
-                    <li><a href="#">Help</a></li>
+
                 </ul>
                 <form class="navbar-form navbar-right">
                     <input type="text" class="form-control" placeholder="Search device...">

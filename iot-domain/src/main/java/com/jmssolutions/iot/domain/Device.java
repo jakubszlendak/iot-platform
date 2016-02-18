@@ -27,7 +27,7 @@ public class Device {
     @Column(name = "aes_key")
     private String aesKey;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
 
@@ -82,6 +82,14 @@ public class Device {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public Collection<Sensor> getSensors() {
+        return sensors;
+    }
+
+    public void setSensors(Collection<Sensor> sensors) {
+        this.sensors = sensors;
     }
 
     @Override

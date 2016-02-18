@@ -35,8 +35,8 @@ public class DeviceManagerServiceImpl implements DeviceManagerService {
     }
 
     @Override
-    public List<Sensor> findSensorByDevice(Device device) {
-        return null;
+    public List<Sensor> findSensorsByDevice(Device device) {
+        return sensorDAO.findByDevice(device);
     }
 
     @Override

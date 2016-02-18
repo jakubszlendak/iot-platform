@@ -22,6 +22,7 @@ public class DashboardController {
 
     @Autowired
     UserService userService;
+    @Autowired
     DeviceManagerService deviceService;
 
     @RequestMapping(value = "/dashboard")
@@ -40,6 +41,9 @@ public class DashboardController {
     public String devicesDetails(Model model, Principal principal){
         User owner = userService.getUserByUsername(principal.getName());
         List<Device> devices = deviceService.findDevicesByUser(owner);
+        for(Device dev : devices){
+            dev.setSensors(deviceService.findSensorsByDevice(dev));
+        }
         model.addAttribute("deviceList", devices);
         return "dashboard_devices_def";
     }
