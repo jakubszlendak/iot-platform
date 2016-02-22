@@ -35,6 +35,17 @@ public class DeviceManagerServiceImpl implements DeviceManagerService {
     }
 
     @Override
+    public Device findById(long id, User owner) {
+        Device dev = deviceDAO.findById(id);
+        if(dev == null)
+            return null;
+        List<Device> ownerDevices = deviceDAO.findByOwner(owner);
+        if(ownerDevices.contains(dev))
+            return dev;
+        else return null;
+    }
+
+    @Override
     public List<Sensor> findSensorsByDevice(Device device) {
         return sensorDAO.findByDevice(device);
     }
