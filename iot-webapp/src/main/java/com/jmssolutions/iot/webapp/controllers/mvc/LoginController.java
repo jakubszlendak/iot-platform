@@ -1,4 +1,4 @@
-package com.jmssolutions.iot.webapp.controllers;
+package com.jmssolutions.iot.webapp.controllers.mvc;
 
 import com.jmssolutions.iot.services.UserService;
 import org.apache.log4j.Logger;

@@ -1,5 +1,7 @@
 package com.jmssolutions.iot.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -11,6 +13,7 @@ import java.util.Collection;
 public class Role {
 
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "role_id")
     private long ID;
@@ -38,6 +41,7 @@ public class Role {
         this.role = role;
     }
 
+    @JsonIgnore
     public Collection<User> getUsers() {
         return users;
     }

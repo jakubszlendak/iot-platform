@@ -1,4 +1,4 @@
-package com.jmssolutions.iot.webapp.controllers;
+package com.jmssolutions.iot.webapp.controllers.mvc;
 
 import javax.servlet.http.HttpServletRequest;
 

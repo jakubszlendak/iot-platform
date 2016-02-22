@@ -33,6 +33,7 @@ public class DeviceSensorApiController {
 
     @RequestMapping(value = "/device", method = RequestMethod.GET)
     public ResponseEntity<List<Device>> devices(Principal principal){
+        logger.info("Entering /device controller");
         User owner = userService.getUserByUsername(principal.getName());
         List<Device> devices = deviceManagerService.findDevicesByUser(owner);
         if(!devices.isEmpty()){
@@ -47,7 +48,7 @@ public class DeviceSensorApiController {
     public ResponseEntity<Error> noDevicesFound(NoDevicesFoundException e){
         String username = e.getOwner().getUsername();
         Error error = new Error("User "+username+" has no devices.");
-        return new ResponseEntity<Error>(error, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(error, HttpStatus.NO_CONTENT);
     }
 
 }

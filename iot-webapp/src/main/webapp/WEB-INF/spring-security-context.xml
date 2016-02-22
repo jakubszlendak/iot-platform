@@ -8,15 +8,22 @@
        http://www.springframework.org/schema/security/spring-security.xsd">
 
        <!--<import resource="user-database-context.xml"/>-->
-       <import resource="classpath:services-context.xml"/>
+       <!--<import resource="classpath:services-context.xml"/>-->
 
 
        <!--<bean id="userDetailsService" class="com.jmssolutions.iot.services.UserAuthenticationDetailsServiceImpl"/>-->
+       <!--<security:http pattern="/login" security="none"/>-->
+       <!--<security:http pattern="/resources/**" security="none"/>-->
+       <!--<security:http pattern="/" security="none"/>-->
+       <security:http pattern="/api/**" create-session="stateless">
+              <security:intercept-url pattern='/**' access="hasRole('ROLE_USER')" />
+              <security:http-basic/>
+       </security:http>
 
        <security:http auto-config="true" use-expressions="true">
-              <security:intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')" />
-              <!--<security:intercept-url pattern="/dashboard"-->
-              <security:intercept-url pattern="/dashboard**" access="hasRole('ROLE_USER')"/>
+              <security:intercept-url pattern="/login" access="permitAll"/>
+              <security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+              <security:intercept-url pattern="/dashboard/**" access="hasRole('ROLE_USER')"/>
               <security:access-denied-handler error-page="/403" />
               <security:form-login
                      login-page="/login"
@@ -29,15 +36,9 @@
               <security:csrf/>
        </security:http>
 
+
        <security:authentication-manager>
-              <security:authentication-provider user-service-ref="userAuthenticationDetailsServiceImpl">
-                     <!--<security:jdbc-user-service data-source-ref="userDataSource"-->
-                                                 <!--users-by-username-query="SELECT username,password, enabled FROM user WHERE username=?"-->
-                                                 <!--authorities-by-username-query="SELECT username, role-->
-                                                                                <!--FROM (user JOIN user_role ON user.user_id=user_role.user_id)-->
-                                                                                <!--JOIN role ON user_role.role_id=role.role_id-->
-                                                                                <!--WHERE username=?" />-->
-              </security:authentication-provider>
+              <security:authentication-provider user-service-ref="userAuthenticationDetailsServiceImpl"/>
        </security:authentication-manager>
 
 </beans>

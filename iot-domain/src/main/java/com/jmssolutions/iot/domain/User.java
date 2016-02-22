@@ -1,4 +1,6 @@
 package com.jmssolutions.iot.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -17,6 +19,7 @@ public class User {
 	@Column(name="email")
 	private String email;
 
+	@JsonIgnore
 	@Column(name="password")
 	private String password;
 
@@ -29,19 +32,15 @@ public class User {
 	@Column(name="last_name")
 	private String lastName;
 
-	@ManyToMany(cascade = CascadeType.REMOVE)
+	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JoinTable(	name = "user_role",
 				joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
 				inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
 	private Collection<Role> roles;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "owner")
 	private Collection<Device> devices;
-
-//	@OneToOne(cascade = CascadeType.REMOVE)
-//	private VerificationToken verificationToken;
-
-
 
 
 	public User(){	}

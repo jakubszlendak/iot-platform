@@ -1,4 +1,4 @@
-package com.jmssolutions.iot.webapp.controllers;
+package com.jmssolutions.iot.webapp.controllers.mvc;
 
 import com.jmssolutions.iot.domain.User;
 import com.jmssolutions.iot.domain.VerificationToken;
