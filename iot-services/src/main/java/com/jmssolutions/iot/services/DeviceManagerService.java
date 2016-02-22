@@ -13,9 +13,9 @@ public interface DeviceManagerService {
 
     List<Device> findAllDevices();
     List<Device> findDevicesByUser(User owner);
-    Device findById(long id, User owner);
+    Device findDeviceById(long id, User owner);
+    Sensor findSensorById(long sensorId, Device dev);
     List<Sensor> findSensorsByDevice(Device device);
     Device createDeviceWithSensors(Device device, List<Sensor> sensors);
     void addSensorToDevice(Device device, Sensor sensor);
-
 }

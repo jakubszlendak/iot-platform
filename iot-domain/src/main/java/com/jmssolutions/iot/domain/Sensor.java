@@ -1,5 +1,7 @@
 package com.jmssolutions.iot.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
@@ -13,7 +15,8 @@ public class Sensor {
     @Column(name = "sensor_id")
     private long ID;
 
-    @ManyToOne(targetEntity = Device.class, fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne(targetEntity = Device.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "device_id", nullable = false)
     private Device owningDevice;
 
