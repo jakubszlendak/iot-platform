@@ -3,8 +3,8 @@
 
             <li><a href="/dashboard">Summary</a></li>
             <li><a href="/dashboard/user">My account</a></li>
-            <li><a href="/devices">My devices</a></li>
-            <li><a href="/devices/new">New device</a></li>
+            <li><a href="/dashboard/devices">My devices</a></li>
+            <li><a href="/dashboard/devices/new">New device</a></li>
         </ul>
 <%--<ul class="nav nav-sidebar">--%>
     <%--<li><a href="">Nav item</a></li>--%>

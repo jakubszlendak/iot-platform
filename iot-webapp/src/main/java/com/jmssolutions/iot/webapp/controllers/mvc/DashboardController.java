@@ -32,12 +32,12 @@ public class DashboardController {
         return "dashboard_welcome_def";
     }
 
-    @RequestMapping(value = "/user")
+    @RequestMapping(value = "/dashboard/user")
     public String userDetails(Model model, Principal principal){
         return "dashboard_user_details_def";
     }
 
-    @RequestMapping(value = "/devices")
+    @RequestMapping(value = "/dashboard/devices")
     public String devicesDetails(Model model, Principal principal){
         User owner = userService.getUserByUsername(principal.getName());
         List<Device> devices = deviceService.findDevicesByUser(owner);
