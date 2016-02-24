@@ -29,6 +29,9 @@ public class Device {
     @Column(name = "aes_key")
     private String aesKey;
 
+    @Column(name = "device_uuid")
+    private String uuid;
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
@@ -78,6 +81,15 @@ public class Device {
 
     public void setAesKey(String aesKey) {
         this.aesKey = aesKey;
+    }
+
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public User getOwner() {

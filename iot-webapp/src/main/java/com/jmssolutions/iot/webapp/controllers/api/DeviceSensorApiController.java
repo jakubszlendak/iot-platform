@@ -3,18 +3,19 @@ package com.jmssolutions.iot.webapp.controllers.api;
 import com.jmssolutions.iot.domain.Device;
 import com.jmssolutions.iot.domain.Sensor;
 import com.jmssolutions.iot.domain.User;
+import com.jmssolutions.iot.exceptions.DeviceManagerException;
 import com.jmssolutions.iot.services.DeviceManagerService;
 import com.jmssolutions.iot.services.UserService;
-import com.jmssolutions.iot.webapp.exceptions.DeviceNotFoundException;
-import com.jmssolutions.iot.webapp.exceptions.NoDevicesFoundException;
-import com.jmssolutions.iot.webapp.exceptions.NoSensorsFoundException;
-import com.jmssolutions.iot.webapp.exceptions.SensorNotFoundException;
+import com.jmssolutions.iot.webapp.exceptions.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 
@@ -80,6 +81,24 @@ public class DeviceSensorApiController {
         else throw new DeviceNotFoundException(owner, deviceId);
     }
 
+    @RequestMapping(value = "/device", method = RequestMethod.POST)
+    public ResponseEntity<Device> createDevice(@RequestBody Device device, UriComponentsBuilder uriComponentsBuilder){
+        Device savedDevice = null;
+        try {
+            savedDevice = deviceManagerService.createDevice(device);
+        } catch (DeviceManagerException e) {
+            throw new InvalidDeviceDataException(device);
+        }
+        HttpHeaders headers = new HttpHeaders();
+        URI location = uriComponentsBuilder.path("/device/").path(String.valueOf(savedDevice.getID())).build().toUri();
+        headers.setLocation(location);
+        return new ResponseEntity<Device>(savedDevice, headers, HttpStatus.CREATED);
+    }
+
+
+
+
+
     @ExceptionHandler(NoDevicesFoundException.class)
     public ResponseEntity<Error> noDevicesFound(NoDevicesFoundException e){
         String username = e.getOwner().getUsername();
@@ -103,6 +122,12 @@ public class DeviceSensorApiController {
     public ResponseEntity<Error> sensorNotFound(SensorNotFoundException e){
         Error error = new Error("Device with id: "+e.getSensorId() + " does not exist");
         return new ResponseEntity<Error>(error, HttpStatus.NO_CONTENT);
+    }
+
+    @ExceptionHandler(InvalidDeviceDataException.class)
+    public ResponseEntity<Error> invalidDevice(InvalidDeviceDataException e){
+        Error error = new Error("Device with uuid: "+e.getDevice().getUuid() + " already exists");
+        return new ResponseEntity<Error>(error, HttpStatus.CONFLICT);
     }
 
 }
