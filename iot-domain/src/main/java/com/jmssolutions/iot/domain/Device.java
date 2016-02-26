@@ -38,7 +38,7 @@ public class Device {
     private User owner;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "owningDevice")
+    @OneToMany(mappedBy = "owningDevice", fetch = FetchType.EAGER)
     private Collection<Sensor> sensors;
 
     public Device() {}

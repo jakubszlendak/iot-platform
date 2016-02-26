@@ -8,7 +8,8 @@ import com.jmssolutions.iot.domain.Device;
 public class DeviceException extends DeviceManagerException {
     private Device device;
 
-    public DeviceException(Device device) {
+    public DeviceException(Device device, String message) {
+        super(message);
         this.device = device;
     }
 

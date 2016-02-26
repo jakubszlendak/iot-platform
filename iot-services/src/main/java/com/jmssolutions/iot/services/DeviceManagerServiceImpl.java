@@ -6,6 +6,7 @@ import com.jmssolutions.iot.domain.Device;
 import com.jmssolutions.iot.domain.Sensor;
 import com.jmssolutions.iot.domain.User;
 import com.jmssolutions.iot.exceptions.DeviceException;
+import com.jmssolutions.iot.exceptions.SensorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -69,18 +70,25 @@ public class DeviceManagerServiceImpl implements DeviceManagerService {
         try{
             dev = deviceDAO.create(device);
         } catch (DataIntegrityViolationException e){
-            throw new DeviceException(device);
+            throw new DeviceException(device, e.getMessage());
         }
         return dev;
     }
 
-//    @Override
-//    public Device createDeviceWithSensors(Device device, List<Sensor> sensors) {
-//        return null;
-//    }
+    @Override
+    public Sensor addSensorToDevice(Device device, Sensor sensor) {
+        Sensor s = null;
+        try{
+            s = sensorDAO.create(sensor);
+        } catch (DataIntegrityViolationException e){
+            throw new SensorException(s, e.getMessage());
+        }
+        return s;
+    }
 
     @Override
-    public void addSensorToDevice(Device device, Sensor sensor) {
+    public void removeDevice(Device device) {
 
+        deviceDAO.remove(device.getID());
     }
 }

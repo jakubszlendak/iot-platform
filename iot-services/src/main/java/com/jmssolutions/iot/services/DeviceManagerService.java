@@ -25,7 +25,7 @@ public interface DeviceManagerService {
     //    Device createDeviceWithSensors(Device device, List<Sensor> sensors);
     Device createDevice(Device device) throws DeviceManagerException;
 
-    void addSensorToDevice(Device device, Sensor sensor);
+    Sensor addSensorToDevice(Device device, Sensor sensor) throws DeviceManagerException;
 
-
+    void removeDevice(Device device);
 }
