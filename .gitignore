@@ -8,7 +8,7 @@
 .idea/
 *.iml
 *.iws
-
+*.fuse_hidden*
 # Mac
 .DS_Store
 

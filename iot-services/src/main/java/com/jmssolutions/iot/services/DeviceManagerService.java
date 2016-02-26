@@ -6,6 +6,7 @@ import com.jmssolutions.iot.domain.User;
 import com.jmssolutions.iot.exceptions.DeviceManagerException;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by jakub on 15.02.16.
@@ -17,6 +18,8 @@ public interface DeviceManagerService {
     List<Device> findDevicesByUser(User owner);
 
     Device findDeviceById(long id, User owner);
+
+    Device findDeviceByUUID(UUID uuid, User owner);
 
     Sensor findSensorById(long sensorId, Device dev);
 

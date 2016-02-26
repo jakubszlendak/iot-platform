@@ -18,6 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by jakub on 16.02.16.
@@ -42,6 +43,22 @@ public class DeviceSensorApiController {
             return new ResponseEntity<>(devices, HttpStatus.OK);
         }
         else throw new NoDevicesFoundException(owner);
+    }
+
+    @RequestMapping(value = "/device", method = RequestMethod.GET, params = "uuid")
+    public ResponseEntity<Device> deviceByUUID(@RequestParam(name = "uuid") String uuidString, Principal principal){
+        UUID uuid = null;
+        try {\
+            uuid = UUID.fromString(uuidString);
+        } catch (NumberFormatException e)
+        {
+            throw new IllegalArgumentException(uuidString + "is not a valid UUID");
+        }
+        User owner = loadPrincipal(principal);
+        Device dev = deviceManagerService.findDeviceByUUID(uuid, owner);
+        if(dev != null)
+            return new ResponseEntity<Device>(dev, HttpStatus.OK);
+        else throw new DeviceNotFoundException(owner, 0);
     }
 
     @RequestMapping(value = "/device/{id}", method = RequestMethod.GET)
@@ -180,6 +197,11 @@ public class DeviceSensorApiController {
     @ExceptionHandler(DeletionNotAllowedException.class)
     public ResponseEntity<String> deletionNotAllowed(DeletionNotAllowedException e){
         return new ResponseEntity<String>(e.getMessage(), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> illegalArgument(IllegalArgumentException e){
+        return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     private User loadPrincipal(Principal principal){

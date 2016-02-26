@@ -23,7 +23,7 @@ public class SensorData {
     @Column(name = "timestamp")
     private long timestamp;
 
-    @Column(name = "double")
+    @Column(name = "value")
     private double value;
 
 

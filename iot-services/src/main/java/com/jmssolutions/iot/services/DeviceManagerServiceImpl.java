@@ -12,6 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by jakub on 16.02.16.
@@ -42,8 +43,17 @@ public class DeviceManagerServiceImpl implements DeviceManagerService {
         Device dev = deviceDAO.findById(id);
         if(dev == null)
             return null;
-        List<Device> ownerDevices = deviceDAO.findByOwner(owner);
-        if(ownerDevices.contains(dev))
+        if(checkUserHasDevice(dev, owner))
+            return dev;
+        else return null;
+    }
+
+    @Override
+    public Device findDeviceByUUID(UUID uuid, User owner) {
+        Device dev =  deviceDAO.findByUUID(uuid.toString());
+        if(dev == null)
+            return null;
+        if(checkUserHasDevice(dev, owner))
             return dev;
         else return null;
     }
@@ -90,5 +100,12 @@ public class DeviceManagerServiceImpl implements DeviceManagerService {
     public void removeDevice(Device device) {
 
         deviceDAO.remove(device.getID());
+    }
+
+    private boolean checkUserHasDevice(Device dev, User user){
+        List<Device> ownerDevices = deviceDAO.findByOwner(user);
+        if(ownerDevices.contains(dev))
+            return true;
+        else return false;
     }
 }

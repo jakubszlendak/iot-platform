@@ -7,10 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -41,6 +38,23 @@ public class DeviceDAOImpl extends AbstractJpaDAO<Long, Device> implements Devic
 
         TypedQuery<Device> tq = entityManager.createQuery(q);
         return tq.getResultList();
+    }
+
+    @Override
+    public Device findByUUID(String uuid) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Device> q = cb.createQuery(Device.class);
+        Root<Device> u = q.from(Device.class);
+        q.select(u);
+        q.where(cb.equal(u.get("uuid"), uuid));
+
+        TypedQuery<Device> tq = entityManager.createQuery(q);
+        try {
+            Device dev = tq.getSingleResult();
+        } catch (NoResultException e) {
+           return null;
+        }
+        return tq.getSingleResult();
     }
 
 

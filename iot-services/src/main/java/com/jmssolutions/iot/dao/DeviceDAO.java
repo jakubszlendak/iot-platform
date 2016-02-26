@@ -12,4 +12,5 @@ import java.util.List;
 public interface DeviceDAO extends DataAccessObject<Long, Device>{
     DeviceClass findDeviceClass(String name);
     List<Device> findByOwner(User owner);
+    Device findByUUID(String uuid);
 }
