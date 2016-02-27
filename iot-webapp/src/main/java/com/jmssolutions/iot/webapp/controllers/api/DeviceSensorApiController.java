@@ -1,9 +1,8 @@
 package com.jmssolutions.iot.webapp.controllers.api;
 
-import com.jmssolutions.iot.domain.Device;
-import com.jmssolutions.iot.domain.Sensor;
-import com.jmssolutions.iot.domain.User;
+import com.jmssolutions.iot.domain.*;
 import com.jmssolutions.iot.exceptions.DeviceManagerException;
+import com.jmssolutions.iot.services.DataManagerService;
 import com.jmssolutions.iot.services.DeviceManagerService;
 import com.jmssolutions.iot.services.UserService;
 import com.jmssolutions.iot.webapp.exceptions.*;
@@ -17,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,6 +34,9 @@ public class DeviceSensorApiController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    DataManagerService dataManagerService;
+
     @RequestMapping(value = "/device", method = RequestMethod.GET)
     public ResponseEntity<List<Device>> devicesByUser(Principal principal){
         logger.info("Entering /device controller");
@@ -48,7 +51,7 @@ public class DeviceSensorApiController {
     @RequestMapping(value = "/device", method = RequestMethod.GET, params = "uuid")
     public ResponseEntity<Device> deviceByUUID(@RequestParam(name = "uuid") String uuidString, Principal principal){
         UUID uuid = null;
-        try {\
+        try {
             uuid = UUID.fromString(uuidString);
         } catch (NumberFormatException e)
         {
@@ -147,6 +150,18 @@ public class DeviceSensorApiController {
         return new ResponseEntity<Sensor>(sensor, headers, HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/device/{device_id}/sensor/{sensor_id}/data", method = RequestMethod.GET)
+    ResponseEntity<SensorDataReport> getDataReport(@PathVariable("sensor_id") long sensorId, @PathVariable("device_id") long deviceId, Principal principal){
+
+        Sensor sensor = loadSensor(principal,deviceId, sensorId);
+        return new ResponseEntity<SensorDataReport>(dataManagerService.getDataReport(sensor), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/device/{device_id}/sensor/{sensor_id}/data", method = RequestMethod.GET, params = {"from", "to"})
+    ResponseEntity<List<SensorData>> getDataInTimeRange(@RequestParam("from") Date from, @RequestParam("to") Date to, @PathVariable("sensor_id") long sensorId, @PathVariable("device_id") long deviceId, Principal principal){
+        Sensor sensor = loadSensor(principal, deviceId, sensorId);
+        return new ResponseEntity<List<SensorData>>(dataManagerService.findDataInTimeRange(sensor, from, to), HttpStatus.OK);
+    }
 
 
 
@@ -209,5 +224,14 @@ public class DeviceSensorApiController {
         if(user == null)
             throw new RuntimeException("Principal user not found. This is internal error. Call 911.");
         else return user;
+    }
+
+    private Sensor loadSensor(Principal principal, long deviceId, long sensorId) {
+        User user = loadPrincipal(principal);
+        Device device = deviceManagerService.findDeviceById(deviceId, user);
+        if(device == null) throw new DeviceNotFoundException(user, deviceId);
+        Sensor sensor = deviceManagerService.findSensorById(sensorId, device);
+        if(sensor == null) throw new SensorNotFoundException(sensorId, device);
+        return sensor;
     }
 }
